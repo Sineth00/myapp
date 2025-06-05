@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Expense Manager</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f4f4f4;
+    }
+    h1 { text-align: center; }
+    .btn {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+    }
+    .credit { background-color: #4CAF50; color: rgb(0, 0, 0); }
+    .debit { background-color: #f44336; color: rgb(0, 0, 0); }
+    #submitBtn { background-color: #333; color: white; }
+    .input-section, .filter-section, .export-section { margin-top: 20px; }
+    label { display: block; margin-top: 10px; }
+    input, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+    .summary { margin-top: 30px; font-size: 18px; font-weight: bold; }
+    .transactions { margin-top: 20px; }
+    .entry {
+      background-color: rgb(255, 255, 255);
+      padding: 10px;
+      margin-bottom: 10px;
+      border-left: 6px solid;
+      border-radius: 5px;
+    }
+    .entry.credit { border-color: green; }
+    .entry.debit { border-color: red; }
+    #chart-container { margin-top: 30px; }
+    .date-filter {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Expense Manager</h1>
+  <button class="btn credit" onclick="showForm('credit')">Credit</button>
+  <button class="btn debit" onclick="showForm('debit')">Debit</button>
+
+  <div class="input-section" id="inputSection">
+    <label for="amount">Rs.</label>
+    <input type="number" id="amount" placeholder="Enter amount" />
+    <label for="reason">Reason</label>
+    <input type="text" id="reason" placeholder="Enter reason" />
+    <button class="btn" id="submitBtn" onclick="addTransaction()">Add</button>
+  </div>
+
+  <div class="filter-section">
+    <label>Filter by Date Range:</label>
+    <div class="date-filter">
+      <input type="date" id="startDate" />
+      <input type="date" id="endDate" />
+      <button class="btn" onclick="renderTransactions()">Apply</button>
+    </div>
+  </div>
+
+  <div class="summary">
+    Total Balance: Rs. <span id="balance">0</span>
+  </div>
+
+  <div class="transactions" id="transactionList"></div>
+
+  <div id="chart-container">
+    <canvas id="expenseChart" height="100"></canvas>
+  </div>
+
+  <div class="export-section">
+    <button class="btn" onclick="exportToExcel()">Export to Excel</button>
+    <button class="btn" onclick="exportToPDF()">Export to PDF</button>
+  </div>
+
+  <script>
+    let currentType = "";
+    let transactions = [];
+
+    function showForm(type) {
+      currentType = type;
+      document.getElementById('inputSection').style.display = 'block';
+      document.getElementById('amount').value = '';
+      document.getElementById('reason').value = '';
+    }
+
+    function addTransaction() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const reason = document.getElementById('reason').value;
+
+      if (isNaN(amount) || reason.trim() === "") {
+        alert("Please enter valid amount and reason.");
+        return;
+      }
+
+      const transaction = {
+        type: currentType,
+        amount,
+        reason,
+        date: new Date().toISOString()
+      };
+
+      transactions.push(transaction);
+      saveToLocalStorage();
+      renderTransactions();
+    }
+
+    function filterTransactions() {
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+
+      return transactions.filter(tx => {
+        const txDate = new Date(tx.date);
+
+        if (startDate && txDate < new Date(startDate)) return false;
+        if (endDate && txDate > new Date(endDate + 'T23:59:59')) return false;
+
+        return true;
+      });
+    }
+
+    function renderTransactions() {
+      const list = document.getElementById("transactionList");
+      list.innerHTML = "";
+
+      const filtered = filterTransactions();
+      let balance = 0;
+      let totalIncome = 0, totalExpense = 0;
+
+      filtered.slice().reverse().forEach(tx => {
+        const entryDiv = document.createElement("div");
+        entryDiv.className = `entry ${tx.type}`;
+        entryDiv.innerHTML = `
+          <strong>${tx.type.toUpperCase()}</strong> - Rs. ${tx.amount}<br/>
+          Reason: ${tx.reason}<br/>
+          <small>${new Date(tx.date).toLocaleString()}</small>
+        `;
+        list.appendChild(entryDiv);
+
+        if (tx.type === "credit") {
+          balance += tx.amount;
+          totalIncome += tx.amount;
+        } else {
+          balance -= tx.amount;
+          totalExpense += tx.amount;
+        }
+      });
+
+      document.getElementById("balance").textContent = balance.toFixed(2);
+      updateChart(totalIncome, totalExpense);
+    }
+
+    function updateChart(income, expense) {
+      const ctx = document.getElementById('expenseChart').getContext('2d');
+      if (window.myChart) window.myChart.destroy();
+
+      window.myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Income', 'Expense'],
+          datasets: [{
+            data: [income, expense],
+            backgroundColor: ['#4CAF50', '#f44336']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    }
+
+    function saveToLocalStorage() {
+      localStorage.setItem("transactions", JSON.stringify(transactions));
+    }
+
+    function loadFromLocalStorage() {
+      const stored = localStorage.getItem("transactions");
+      if (stored) {
+        transactions = JSON.parse(stored);
+        renderTransactions();
+      }
+    }
+
+    async function exportToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 10;
+
+      doc.text("Expense Report", 10, y);
+      y += 10;
+
+      filterTransactions().forEach(tx => {
+        doc.text(`${tx.type.toUpperCase()} | Rs. ${tx.amount} | ${tx.reason} | ${new Date(tx.date).toLocaleString()}`, 10, y);
+        y += 10;
+      });
+
+      doc.save("expense_report.pdf");
+    }
+
+    function exportToExcel() {
+      const data = filterTransactions().map(tx => ({
+        Type: tx.type,
+        Amount: tx.amount,
+        Reason: tx.reason,
+        Date: new Date(tx.date).toLocaleString()
+      }));
+
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Transactions");
+      XLSX.writeFile(wb, "expense_report.xlsx");
+    }
+
+    window.onload = () => {
+      loadFromLocalStorage();
+      document.getElementById('inputSection').style.display = 'none';
+    };
+  </script>
+</body>
+</html>
