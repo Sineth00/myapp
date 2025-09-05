@@ -1,0 +1,207 @@
+ * {
+      scroll-behavior: smooth;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #121212;
+      color: #f5f5f5;
+      padding-top: 70px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: white;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      color: #00ffff;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+    }
+
+    nav a {
+      margin-left: 20px;
+      color: rgb(0, 0, 0);
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #00ffff;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      padding-top: 80px;
+      transition: right 0.3s ease;
+      z-index: 999;
+    }
+
+    .sidebar a {
+      color: white;
+      padding: 15px 20px;
+      text-decoration: none;
+      border-bottom: 1px solid #333;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    section {
+      padding: 60px 40px 40px 40px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin-top: 60px;
+    }
+
+    @media (min-width: 768px) {
+      .gallery {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .photo {
+      width: 100%;
+      max-width: 1280px;
+      overflow: hidden;
+      border-radius: 16px;
+      background-color: #222;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+    }
+
+    .photo:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
+    }
+
+    .photo-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      display: block;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .photo-image.loaded {
+      opacity: 1;
+    }
+
+    .photo-content {
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .photo-content h3 {
+      font-size: 22px;
+      color: #00ff22;
+      margin-bottom: 8px;
+    }
+
+    .photo-content p {
+      font-size: 14px;
+      color: #ddd;
+      margin: 0;
+    }
+
+    #about {
+      background-color: #1e1e1e;
+      padding: 100px 40px;
+      margin-top: 60px;
+    }
+
+    #contact {
+      background-color: #181818;
+      padding: 80px 40px;
+      margin-top: 60px;
+    }
+
+    #contact img {
+      margin-top: 30px;
+      width: 80px;
+      max-width: 90%;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #contact img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    #home h1 {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 40px;
+    }
+
+    h1,
+    h2 {
+      color: #00ffff;
+      margin-bottom: 20px;
+    }
+
+    p {
+      line-height: 1.6;
+    }

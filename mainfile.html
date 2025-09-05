@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="https://res.cloudinary.com/dimsryuqt/image/upload/v1757098693/Logo_hkuv7v_kf1y5o.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luka</title>
+  <link rel="icon" href="Image Web/Image Logo.png">
+
+  <!-- external CSS -->
+  <link rel="stylesheet" href="css/mainfile.css" />
+
+</head>
+
+<body>
+
+  <header>
+    <a href="./index" class="logo">Gaming Luka</a>
+    <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+    <nav>
+      <a href="index.html#top">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="sidebar" id="sidebar">
+    <a href="./index" onclick="toggleSidebar()">Home</a>
+    <a href="./index#about" onclick="toggleSidebar()">About</a>
+    <a href="./index#contact" onclick="toggleSidebar()">Contact</a>
+  </div>
+
+  <section id="top">
+    <div class="image-wrapper">
+      <div class="loader" id="imageLoader"></div>
+      <img id="mainImage"
+        src="https://res.cloudinary.com/dimsryuqt/image/upload/v1757098701/Free_Panel_zcvona_rsxhc2.png"
+        alt="Main Image" />
+    </div>
+
+    <div class="countdown" id="countdown">00:05</div>
+
+    <div class="download-section" id="downloadSection">
+      <div class="download-btn" onclick="handleDownload()">
+        <img src="https://res.cloudinary.com/dimsryuqt/image/upload/v1757098693/Downlord_sm5ap7.png"
+          alt="Download Icon" />
+      </div>
+      <div class="remaining-clicks" id="remainingClicks">Remaining Clicks: 5</div>
+    </div>
+  </section>
+
+  <script src="js/mainfile.js"></script>
+</body>
+
+
+</html>
