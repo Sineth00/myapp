@@ -205,3 +205,27 @@
     p {
       line-height: 1.6;
     }
+
+    footer {
+  background: #000000cc;
+  color: #f5f5f5;
+  text-align: center;
+  padding: 20px 10px;
+  margin-top: 40px;
+  font-size: 14px;
+}
+
+footer .footer-links {
+  margin-top: 8px;
+}
+
+footer .footer-links a {
+  margin: 0 10px;
+  color: #00ffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer .footer-links a:hover {
+  color: #ffcc00;
+}
