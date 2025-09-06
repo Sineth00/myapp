@@ -51,7 +51,19 @@ function toggleSidebar() {
     const img = document.getElementById("mainImage");
     const loader = document.getElementById("imageLoader");
 
-    img.onload = () => {
-      loader.style.display = 'none';
-      img.classList.add('loaded');
-    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+            const lazyImages = document.querySelectorAll(".lazy-img");
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.getAttribute("data-src");
+                        img.onload = () => img.classList.add("loaded");
+                        img.removeAttribute("data-src");
+                        obs.unobserve(img);
+                    }
+                });
+            }, { threshold: 0.1 });
+            lazyImages.forEach(img => observer.observe(img));
+        });
