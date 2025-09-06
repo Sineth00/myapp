@@ -31,9 +31,7 @@
         }
 
         document.getElementById('openPagesBtn1').addEventListener('click', function () {
-            openTwoLinks('https://ads.example.com', 'downloadglitch.html');
+            openTwoLinks('https://ads.example.com', './downloadglitch');
         });
 
-        document.getElementById('openPagesBtn2').addEventListener('click', function () {
-            openTwoLinks('https://ads.example.com', 'https://download.example.com/file2.zip');
-        });
+    

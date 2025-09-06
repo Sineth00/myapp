@@ -31,7 +31,7 @@
         }
 
         document.getElementById('openPagesBtn1').addEventListener('click', function () {
-            openTwoLinks('https://ads.example.com', 'installationglitch.html');
+            openTwoLinks('https://ads.example.com', './installationglitch');
         });
 
        
