@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Luka</title>
-  <link rel="icon" href="https://res.cloudinary.com/dimsryuqt/image/upload/v1757098693/Logo_hkuv7v_kf1y5o.png" />
-
-  <!-- external CSS -->
-  <link rel="stylesheet" href="css/2.22.01Updatefile.css" />
-
+  <title>ZaiRex</title>
+  <link rel="icon" href="https://res.cloudinary.com/dl167vevk/image/upload/v1753967125/Logo_hkuv7v.png" />
+  <link rel="stylesheet" href="css/2.22.01Updatefile.css">
 </head>
-
 <body>
 
   <header>
@@ -32,17 +27,19 @@
 
   <section id="top">
     <div class="image-wrapper">
-      <div class="loader" id="imageLoader"></div>
-      <img id="mainImage" src="https://res.cloudinary.com/dimsryuqt/image/upload/v1757098697/gfd_d7ldhf_uutzko.png"
-        alt="Main Image" />
+      
+      <!-- Lazy load image -->
+      <img id="mainImage" 
+           class="lazy-img" 
+           data-src="https://res.cloudinary.com/dimsryuqt/image/upload/v1757098697/gfd_d7ldhf_uutzko.png" 
+           alt="Main Image" />
     </div>
 
     <div class="countdown" id="countdown">00:05</div>
 
     <div class="download-section" id="downloadSection">
       <div class="download-btn" onclick="handleDownload()">
-        <img src="https://res.cloudinary.com/dimsryuqt/image/upload/v1757098693/Downlord_sm5ap7.png"
-          alt="Download Icon" />
+        <img src="https://res.cloudinary.com/dimsryuqt/image/upload/v1757098693/Downlord_sm5ap7.png" alt="Download Icon" />
       </div>
       <div class="remaining-clicks" id="remainingClicks">Remaining Clicks: 5</div>
     </div>
@@ -50,5 +47,4 @@
 
   <script src="js/2.22.01Updatefile.js"></script>
 </body>
-
 </html>
