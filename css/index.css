@@ -192,8 +192,9 @@
 
     #home h1 {
       text-align: center;
-      font-size: 20px;
-      margin-bottom: 40px;
+      font-size: 17px;
+      margin-bottom: -30px;
+      margin-top: -40px; /* ← මෙතනින් තවමත් උඩට යයි */
     }
 
     h1,
@@ -204,13 +205,6 @@
 
     p {
       line-height: 1.6;
-    }
-
-#home h1 {
-      text-align: center;
-      font-size: 17px;
-      margin-bottom: -30px;
-      margin-top: -40px; /* ← මෙතනින් තවමත් උඩට යයි */
     }
 
     footer {
@@ -236,5 +230,3 @@ footer .footer-links a {
 footer .footer-links a:hover {
   color: #ffcc00;
 }
-
-
